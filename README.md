@@ -451,6 +451,45 @@ plt.title('Accuracy of the models');
 
 We are searching for a model that can predict with high accuracy and precision random forest classifier fits those requirements.
 
+### MODEL HYPERPARAMETER TUNING RANDOM FOREST CLASSIFIER:
+```
+# grid search to find the best hyperparameter combination for the model.
+
+rf_params = {"max_depth": [8,15,20],
+             "n_estimators":[500,1000],
+             "min_samples_split":[5,10,15],
+             "criterion":['entropy','gini']}
+
+rf_model2 = RandomForestClassifier()
+rf_cv_model = GridSearchCV(rf_model2,rf_params,cv=3,n_jobs=-1,verbose=False)
+rf_cv_model.fit(X_train,y_train)
+print("Best parameters:"+str(rf_cv_model.best_params_))
+
+```
+
+```
+rf_model_GridSearchCV_Applied = RandomForestClassifier(criterion='gini', max_depth=20, min_samples_split=5, n_estimators=1000)
+rf_model_GridSearchCV_Applied.fit(X_train, y_train)
+y_pred_rf_GridSearchCV_Applied = rf_model_GridSearchCV_Applied.predict(X_test)
+
+```
+### Classification Report(Hyperparameter Tuned Random Forest Model):
+```
+print(classification_report(y_test, y_pred_rf_GridSearchCV_Applied))
+```
+```
+print('Accuracy: ',round(accuracy_score(y_test, y_pred_rf_GridSearchCV_Applied),5))
+print('F1 score: ',round(f1_score(y_test, y_pred_rf_GridSearchCV_Applied),5))
+print('Recall: ',round(recall_score(y_test, y_pred_rf_GridSearchCV_Applied),5))
+print('Precision: ',round(precision_score(y_test, y_pred_rf_GridSearchCV_Applied),5))
+cm_rf = confusion_matrix(y_test, y_pred_rf_GridSearchCV_Applied)
+f, ax= plt.subplots(1,1,figsize=(5,3))
+sns.heatmap(cm_rf, annot=True, cmap='Oranges', fmt='g', ax=ax);
+ax.set_xlabel('Predicted Labels'); ax.set_ylabel('True Labels') ; ax.set_title('Confusion Matrix')
+ax.xaxis.set_ticklabels(['0', '1']) ; ax.yaxis.set_ticklabels(['0', '1'])
+plt.show();
+```
+
 
 
 
