@@ -307,6 +307,7 @@ cm_rf = confusion_matrix(y_test, y_test_pred)
 
 ```
 
+![CMF_Random_forest](https://github.com/Saoke1219/syriatel_churn/assets/144167777/77921187-efd9-4121-931d-552f9473c4ab)
 
 ### MODEL COMPARISON
 
