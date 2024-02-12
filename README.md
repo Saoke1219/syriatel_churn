@@ -182,3 +182,247 @@ print("y_train shape:", y_train.shape)
 
 print("y_test shape:", y_test.shape)
 ```
+
+### SMOTE
+
+SMOTE is a data resampling technique used to address class imbalance by generating synthetic samples for the minority class.In this case our minority is churned.
+smote is used to address class imbalance in machine learning
+
+```
+from imblearn.over_sampling import SMOTE
+
+oversample = SMOTE(k_neighbors=5)
+
+X_smote, y_smote = oversample.fit_resample(X, y)
+
+print(y_smote.value_counts())
+
+```
+
+### MODELLING
+
+### Logistic Regression Model
+
+```
+# Create logistic regression model:
+lr = LogisticRegression()
+
+# Train the model:
+lr.fit(X_train, y_train)
+
+# Make predictions on the training and testing sets:
+y_train_pred = lr.predict(X_train)
+y_test_pred = lr.predict(X_test)
+```
+```
+# Feature Importances
+feature_importance = abs(lr.coef_[0])
+feature_importance = 100.0 * (feature_importance / feature_importance.max())[0:10]
+sorted_idx = np.argsort(feature_importance)[0:10]
+pos = np.arange(sorted_idx.shape[0]) + .5
+
+```
+
+![Logistic Regression_feature_importance](https://github.com/Saoke1219/churn_analysis/assets/144167777/be1988e9-9a08-4d37-beca-386fc2852882)
+
+```
+print(classification_report(y_test, y_test_pred, target_names=['0', '1']))
+```
+
+```
+print('Accuracy score for testing set: ',round(accuracy_score(y_test,y_test_pred),5))
+print('F1 score for testing set: ',round(f1_score(y_test,y_test_pred),5))
+print('Recall score for testing set: ',round(recall_score(y_test,y_test_pred),5))
+print('Precision score for testing set: ',round(precision_score(y_test,y_test_pred),5))
+cm_lr = confusion_matrix(y_test, y_test_pred)
+
+```
+
+![CFM_logistic_regression](https://github.com/Saoke1219/churn_analysis/assets/144167777/7ca79361-9a7e-4e1d-92c1-346c4293bb78)
+
+## Decision Tree Model
+```
+# Create logistic regression model:
+dt = DecisionTreeClassifier()
+
+# Train the model:
+dt.fit(X_train, y_train)
+
+# Make predictions on the training and testing sets:
+y_train_pred = dt.predict(X_train)
+y_test_pred = dt.predict(X_test)
+
+```
+
+```
+feature_names = list(X_train.columns)
+importances = dt.feature_importances_[0:15]
+indices = np.argsort(importances)
+
+```
+
+![Decision Tree_feature importance](https://github.com/Saoke1219/churn_analysis/assets/144167777/170179b8-34c9-4ec0-b959-268371c672fa)
+
+```
+print(classification_report(y_test, y_test_pred, target_names=['0', '1']))
+```
+
+```
+print('Accuracy score for testing set: ',round(accuracy_score(y_test,y_test_pred),5))
+print('F1 score for testing set: ',round(f1_score(y_test,y_test_pred),5))
+print('Recall score for testing set: ',round(recall_score(y_test,y_test_pred),5))
+print('Precision score for testing set: ',round(precision_score(y_test,y_test_pred),5))
+cm_dt = confusion_matrix(y_test, y_test_pred)
+```
+![CMF_Decision_tree](https://github.com/Saoke1219/churn_analysis/assets/144167777/54ad5ea1-4739-465e-9d70-9cb2c063cdd3)
+
+### Random Forest
+
+```
+# Create logistic regression model:
+rf = RandomForestClassifier() 
+
+# Train the model:
+rf.fit(X_train, y_train)
+
+# Make predictions on the training and testing sets:
+y_train_pred = rf.predict(X_train)
+y_test_pred = rf.predict(X_test)
+
+```
+
+```
+Importance =pd.DataFrame({"Importance": rf.feature_importances_*100},index = X_train.columns)
+print(classification_report(y_test, y_test_pred, target_names=['0', '1']))
+```
+
+![Random_forest_feature_importance](https://github.com/Saoke1219/churn_analysis/assets/144167777/a7894253-4650-4156-8abb-3bb80ec2d36d)
+
+```
+print('Accuracy score for testing set: ',round(accuracy_score(y_test,y_test_pred),5))
+print('F1 score for testing set: ',round(f1_score(y_test,y_test_pred),5))
+print('Recall score for testing set: ',round(recall_score(y_test,y_test_pred),5))
+print('Precision score for testing set: ',round(precision_score(y_test,y_test_pred),5))
+cm_rf = confusion_matrix(y_test, y_test_pred)
+
+```
+
+### MODEL COMPARISON
+
+```
+classifiers = [LogisticRegression(),
+               RandomForestClassifier(),
+               DecisionTreeClassifier()]
+
+
+# Define a result table as a DataFrame
+result_table = pd.DataFrame(columns=['classifiers', 'fpr','tpr','auc'])
+
+# Train the models and record the results
+for cls in classifiers:
+    model = cls.fit(X_train, y_train)
+    yproba = model.predict_proba(X_test)[::,1]
+    
+    fpr, tpr, _ = roc_curve(y_test,  yproba)
+    auc = roc_auc_score(y_test, yproba)
+    
+    result_table = result_table.append({'classifiers':cls.__class__.__name__,
+                                        'fpr':fpr, 
+                                        'tpr':tpr, 
+                                        'auc':auc}, ignore_index=True)
+
+# Set name of the classifiers as index labels
+result_table.set_index('classifiers', inplace=True)
+
+fig = plt.figure(figsize=(8,6))
+
+for i in result_table.index:
+    plt.plot(result_table.loc[i]['fpr'], 
+             result_table.loc[i]['tpr'], 
+             label="{}, AUC={:.3f}".format(i, result_table.loc[i]['auc']))
+    
+plt.plot([0,1], [0,1], color='black', linestyle='--')
+
+plt.xticks(np.arange(0.0, 1.1, step=0.1))
+plt.xlabel("False Positive Rate", fontsize=15)
+
+plt.yticks(np.arange(0.0, 1.1, step=0.1))
+plt.ylabel("True Positive Rate", fontsize=15)
+
+plt.title('ROC Curve Analysis', fontweight='bold', fontsize=15)
+plt.legend(prop={'size':13}, loc='lower right')
+
+plt.show()
+
+```
+
+![Model_comparison](https://github.com/Saoke1219/churn_analysis/assets/144167777/bf615ed8-ba85-4dbe-adae-994aa96481ba)
+
+The ROC curve is a plot of the true positive rate against the false positive rate of our classifier. The best performing models will have a curve that hugs the upper left of the graph, which is the the random forest classifier in this case.
+
+### MODEL COMPARISON (F1 SCORE)
+
+```
+models = [lr,rf,dt]
+
+result = []
+results = pd.DataFrame(columns= ["Models","F1"])
+
+for model in models:
+    names = model.__class__.__name__
+    y_pred = model.predict(X_test)
+    f1 = cross_val_score(model,X_test,y_test,cv=10,scoring="f1_weighted").mean()  
+    result = pd.DataFrame([[names, f1*100]], columns= ["Models","F1"])
+    results = results.append(result)
+    
+sns.barplot(x= 'F1', y = 'Models', data=results, palette="coolwarm")
+plt.xlabel('F1 %')
+plt.title('F1 of the models');
+
+```
+
+![Models_comparison_f1_score](https://github.com/Saoke1219/churn_analysis/assets/144167777/51845f88-1cb2-47f1-8504-fc5f9d52e400)
+
+
+```
+The decision treeclassifier has a higher F1_Score.
+
+```
+
+### MODEL COMPARISON (ACCURACY)
+
+```
+models = [lr,rf,dt]
+result = []
+results = pd.DataFrame(columns= ["Models","Accuracy"])
+
+for model in models:
+    names = model.__class__.__name__
+    y_pred = model.predict(X_test)
+    accuracy = accuracy_score(y_test, y_pred)    
+    result = pd.DataFrame([[names, accuracy*100]], columns= ["Models","Accuracy"])
+    results = results.append(result)
+    
+    
+sns.barplot(x= 'Accuracy', y = 'Models', data=results, palette="coolwarm")
+plt.xlabel('Accuracy %')
+plt.title('Accuracy of the models');
+```
+
+![Model_comparison_Accuracy](https://github.com/Saoke1219/churn_analysis/assets/144167777/bc635835-9083-4b9c-8b8e-42288a49c641)
+
+We are searching for a model that can predict with high accuracy and precision random forest classifier fits those requirements.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
