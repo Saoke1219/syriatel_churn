@@ -160,3 +160,25 @@ for i in new_df2.select_dtypes(include=[np.number]).columns:
 new_df2.head()
 
 ```
+
+### DATA TRAINING & SPLITTING
+
+```
+# create the X and Y variables (predict and target values)
+
+y = new_df2['churn']
+
+X = new_df2.drop(['churn'], axis=1) 
+
+#split data into train and test sets
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+
+print("X_train shape:", X_train.shape)
+
+print("X_test shape:", X_test.shape)
+
+print("y_train shape:", y_train.shape)
+
+print("y_test shape:", y_test.shape)
+```
