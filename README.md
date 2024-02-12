@@ -144,6 +144,40 @@ new_df2 = new_df2.drop(['state','area code','international plan','voice mail pla
 
 new_df2.head()
 ```
+### LABEL ENCODING STATE COLUMN:
+
+Label encoding is a technique used to convert categorical columns to numerical ones so that the can be fittd by machine learning models which only take numerical variables.
+```
+le = LabelEncoder()
+le.fit(new_df2['state'])
+new_df2['state'] = le.transform(new_df2['state'])
+new_df2.head()
+```
+
+### OUTLIER DETECTION AND TREATMENT:
+```
+print("Before dropping numerical outliers, length of the dataframe is: ", len(new_df2))
+
+def drop_numerical_outliers(new_df2, z_thresh=3):
+    # Import necessary libraries inside the function to avoid NameError
+    import numpy as np
+    from scipy import stats
+    
+    # Use DataFrame.copy() to avoid modifying the original DataFrame
+    new_df2 = new_df2.copy()
+    
+    # Apply z-score method to identify outliers
+    constrains = new_df2.select_dtypes(include=[np.number]).apply(lambda x: np.abs(stats.zscore(x)) < z_thresh).all(axis=1)
+    
+    # Drop rows with outliers
+    new_df2.drop(new_df2.index[~constrains], inplace=True)
+    
+    return new_df2
+
+new_df2 = drop_numerical_outliers(new_df2)
+print("After dropping numerical outliers, length of the dataframe is: ", len(new_df2))
+
+```
 
 ### SCALING NUMERICAL FEATURE
 
