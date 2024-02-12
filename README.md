@@ -306,7 +306,7 @@ print('Precision score for testing set: ',round(precision_score(y_test,y_test_pr
 cm_rf = confusion_matrix(y_test, y_test_pred)
 
 ```
-![Random_forest_feature_importance](https://github.com/Saoke1219/churn_analysis/assets/144167777/a7894253-4650-4156-8abb-3bb80ec2d36d)
+
 
 ### MODEL COMPARISON
 
