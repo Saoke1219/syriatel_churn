@@ -274,6 +274,9 @@ cm_lr = confusion_matrix(y_test, y_test_pred)
 
 ![CFM_logistic_regression](https://github.com/Saoke1219/syriatel_churn/assets/144167777/4b8c12cf-0142-4319-9462-28dc776b647b)
 
+Accuracy Score (0.8993):An accuracy of 0.8993 suggests that the model correctly predicted the churn status of approximately 89.9% of the customers in the testing set. F1 Score (0.21739):A low F1 score of 0.21739 indicates that the model's accuracy in predicting both churn and non-churn customers is relatively poor. Recall Score (0.12195):A recall score of 0.12195 means that the model correctly identified only about 12.2% of the churn cases in the testing set. Precision Score (1.0):A precision score of 1.0 suggests that when the model predicts a customer will churn, it is always correct. However, this high precision score seems unusual and may indicate overfitting or imbalanced data.
+
+
 
 ## Decision Tree Model
 ```
@@ -311,6 +314,9 @@ cm_dt = confusion_matrix(y_test, y_test_pred)
 ```
 ![CMF_Decision_tree](https://github.com/Saoke1219/syriatel_churn/assets/144167777/287bbb44-ce86-4a66-855d-c7ffe6a81eba)
 
+Accuracy Score (0.93427):An accuracy of 0.93427 suggests that the model correctly predicted the churn status of approximately 93.4% of the customers in the testing set. F1 Score (0.68874):A higher F1 score of 0.68874 indicates that the model's accuracy in predicting both churn and non-churn customers is relatively good. Recall Score (0.63415):A recall score of 0.63415 means that the model correctly identified approximately 63.4% of the churn cases in the testing set. Precision Score (0.75362):A precision score of 0.75362 suggests that when the model predicts a customer will churn, it is correct approximately 75.4% of the time.
+
+
 
 ### Random Forest
 
@@ -344,6 +350,11 @@ cm_rf = confusion_matrix(y_test, y_test_pred)
 ```
 
 ![CMF_Random_forest](https://github.com/Saoke1219/syriatel_churn/assets/144167777/dcb114a4-a313-4382-bb69-1bf06f3532b7)
+
+
+Accuracy Score (0.94825):An accuracy of 0.94825 suggests that the model correctly predicted the churn status of approximately 94.8% of the customers in the testing set. F1 Score (0.71756):A higher F1 score of 0.71756 indicates that the model's accuracy in predicting both churn and non-churn customers is relatively good. Recall Score (0.57317):A recall score of 0.57317 means that the model correctly identified approximately 57.3% of the churn cases in the testing set. Precision Score (0.95918):A precision score of 0.95918 suggests that when the model predicts a customer will churn, it is correct approximately 95.9% of the time.
+
+
 
 ### MODEL COMPARISON
 
@@ -491,8 +502,36 @@ plt.show();
 ```
 
 
+![classification_report_tuned](https://github.com/Saoke1219/syriatel_churn/assets/144167777/07a9378a-ba17-42ab-b025-8e16e7ce37e4)
+
+Accuracy (0.95105):An accuracy of 0.95105 suggests that the model correctly predicted the churn status of approximately 95.1% of the customers in the dataset. This indicates a high overall correctness of the model's predictions.A F1 score of 0.73684 indicates a balanced evaluation of the model's accuracy in predicting both churn and non-churn customers.A recall of 0.59756 means that the model correctly identified approximately 59.8% of the churn cases.A precision of 0.96078 suggests that when the model predicts a customer will churn, it is correct approximately 96.1% of the time.This high precision score indicates that the model is very good at minimizing false positive predictions, which is desirable in many scenarios.
+
+### FINDINGS::
+
+Based on the feature importances, the most influential factors contributing to customer churn are: . Total day charge . Customer service calls . Total eve charge These factors suggest that high charges for daytime and evening usage, as well as increased customer service interactions, are associated with higher churn rates.
+
+As seen on the feature importance location can influence the likelihood of customer churn for example,Urban customers might value convenience, fast-paced service, and access to a wide range of products or services. On the other hand, rural customers might prioritize personalized service, community engagement, and affordability.
+
+Based on the provided feature importances, specific contract terms or pricing plans are not directly identified as contributors to customer churn.However, certain features indirectly related to pricing or service plans, such as "total day charge," "total eve charge," and "customer service calls," are significant predictors of churn.
+
+After modeling Random Forest Classifier was identified as the best model that best predicts likelihood of a customer to churn with a percentage 96.1% precision rate.
 
 
+### RECOMMENDATIONS:
+
+1.Focus on Total Day Charge and Total Evening Charge.
+
+2.Improve Customer Service Quality.
+
+3.Encourage Voice Mail Plan Adoption.
+
+4.Optimize International Calling Services.
+
+5.Address Area Code Specific Concerns.
+
+## CONCLUSION:
+
+In conclusion, the project provides a solid foundation for the telecommunications company to develop and implement data-driven strategies aimed at reducing churn, improving customer satisfaction, and ultimately driving business growth.
 
 
 
