@@ -42,12 +42,6 @@ NUMERICAL FEATURES: (account length, number vmail messages, total day minutes, t
 
 CATEGORICAL FEATURES: (state,area code,international plan,voicemail plan)
 
-
-
-explore categorical features
-categoric_cols = ['state','area code','international plan','voice mail plan']
-
-
 We will require the following libraries;
 
 ```
@@ -114,6 +108,9 @@ Above are distribution plots of churned and non-churned customers in the numeric
 
 From the correlation heatmap,some of the features in the dataset demonstrate a perfect positive correlation, such as "Total day charge" and "Total day minutes", "Total eve charge" and "Total eve minutes", "Total night charge" and "Total night minutes", and "Total int charge" and "Total int minutes".They have a correlation coefficient of 1.00, indicating perfect multicollinearity.
 
+explore categorical features
+
+categoric_cols = ['state','area code','international plan','voice mail plan']
 
 ### DISTRIBUTION OF CATEGORICAL VARIABLES
 
