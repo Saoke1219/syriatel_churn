@@ -37,7 +37,7 @@ The outcome was a precision_score was 96%.
 
 The ROC curve is a plot of the true positive rate against the false positive rate of our classifier. The best performing models will have a curve that hugs the upper left of the graph, which is the the random forest classifier in this case.
 
-RECOOMMENDATIONS:
+RECOMMENDATIONS:
 
 1.Focus on Total Day Charge and Total Evening Charge:
 
