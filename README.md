@@ -272,7 +272,8 @@ cm_lr = confusion_matrix(y_test, y_test_pred)
 
 ```
 
-![CFM_logistic_regression](https://github.com/Saoke1219/churn_analysis/assets/144167777/7ca79361-9a7e-4e1d-92c1-346c4293bb78)
+![CFM_logistic_regression](https://github.com/Saoke1219/syriatel_churn/assets/144167777/4b8c12cf-0142-4319-9462-28dc776b647b)
+
 
 ## Decision Tree Model
 ```
@@ -308,7 +309,8 @@ print('Recall score for testing set: ',round(recall_score(y_test,y_test_pred),5)
 print('Precision score for testing set: ',round(precision_score(y_test,y_test_pred),5))
 cm_dt = confusion_matrix(y_test, y_test_pred)
 ```
-![CMF_Decision_tree](https://github.com/Saoke1219/churn_analysis/assets/144167777/54ad5ea1-4739-465e-9d70-9cb2c063cdd3)
+![CMF_Decision_tree](https://github.com/Saoke1219/syriatel_churn/assets/144167777/287bbb44-ce86-4a66-855d-c7ffe6a81eba)
+
 
 ### Random Forest
 
@@ -341,7 +343,7 @@ cm_rf = confusion_matrix(y_test, y_test_pred)
 
 ```
 
-![CMF_Random_forest](https://github.com/Saoke1219/syriatel_churn/assets/144167777/77921187-efd9-4121-931d-552f9473c4ab)
+![CMF_Random_forest](https://github.com/Saoke1219/syriatel_churn/assets/144167777/dcb114a4-a313-4382-bb69-1bf06f3532b7)
 
 ### MODEL COMPARISON
 
